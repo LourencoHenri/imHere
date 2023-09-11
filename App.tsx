@@ -1,11 +1,19 @@
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, extendTheme } from "native-base";
 import { Home } from "./src/screens/Home";
 import { StatusBar } from "react-native";
 import "./src/i18n";
 
 export default function App() {
+	const theme = extendTheme({
+		colors: {
+			primary: {
+				main: "#007BFF",
+			},
+		},
+	});
+
 	return (
-		<NativeBaseProvider>
+		<NativeBaseProvider theme={theme}>
 			<StatusBar barStyle={"light-content"} translucent />
 			<Home />
 		</NativeBaseProvider>

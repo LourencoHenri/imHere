@@ -19,6 +19,7 @@ import {
 	Stack,
 	VStack,
 	Divider,
+	Container,
 } from "native-base";
 import { Participant } from "../../components/Participant";
 import { useTranslation } from "react-i18next";
@@ -27,13 +28,7 @@ import { styles } from "./styles";
 import { useState } from "react";
 import { Formik } from "formik";
 import i18n from "../../i18n";
-import {
-	TouchableOpacity,
-	TextInput,
-	FlatList,
-	Image,
-	Alert,
-} from "react-native";
+import { TouchableOpacity, FlatList, Image, Alert } from "react-native";
 
 export function Home() {
 	const { t } = useTranslation();
@@ -128,145 +123,165 @@ export function Home() {
 	}
 
 	return (
-		<Box bg={theme.bg} style={styles.container}>
-			<Box mb={4}>
-				<Box flexDirection={"row"} justifyContent={"space-between"}>
-					<Text fontSize="4xl" fontWeight="bold" textAlign="center" pt={6}>
+		<Box bg={theme.bg}>
+			<Box
+				colorScheme="lightBlue"
+				flexDirection={"row"}
+				alignItems={"center"}
+				justifyContent={"flex-end"}
+				pt={12}
+				padding={4}
+			>
+				<IconButton
+					icon={<HamburgerIcon />}
+					variant={"solid"}
+					borderRadius="full"
+					onPress={handleOpenModal}
+					size={"sm"}
+				/>
+			</Box>
+			<Box p={4} pt={0}>
+				<Box
+					borderWidth={1}
+					borderColor={theme.border}
+					borderRadius={"3xl"}
+					mb={10}
+				>
+					<Text fontSize="3xl" fontWeight="bold" textAlign="center">
 						Moby Dick
 					</Text>
-					<IconButton
-						icon={<HamburgerIcon />}
-						borderRadius="full"
-						onPress={handleOpenModal}
-						size={"sm"}
-					/>
+					<Box alignItems={"center"}>
+						<Text textAlign={"center"} fontSize={"sm"} width={"80%"}>
+							Av. Vicente de Carvalho, 30 - Boqueirão, Santos - SP
+						</Text>
+					</Box>
+					<Box p={2}>
+						<Formik
+							initialValues={{ name: "" }}
+							onSubmit={(values) => {
+								handleParticipantAdd(values.name);
+							}}
+						>
+							{({ handleChange, handleSubmit, values }) => (
+								<FormControl>
+									<Input
+										width={"100%"}
+										size={"md"}
+										id="name"
+										borderRadius={"full"}
+										placeholder={t(`form.placeholder.name`)}
+										onChangeText={handleChange("name")}
+										value={values.name}
+										mb={2}
+									/>
+									<Button
+										onPress={handleSubmit}
+										fontSize={"md"}
+										borderRadius={"full"}
+										colorScheme="lightBlue"
+									>
+										{t(`form.submitButton`)}
+									</Button>
+								</FormControl>
+							)}
+						</Formik>
+					</Box>
 				</Box>
-				<Box alignItems={"center"}>
-					<Text textAlign={"center"} fontSize={"sm"} width={"80%"}>
-						Av. Vicente de Carvalho, 30 - Boqueirão, Santos - SP
-					</Text>
-				</Box>
-			</Box>
 
-			<Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-				<Modal.Content>
-					<Modal.CloseButton />
-					<Modal.Header>{t(`modal.title`)}</Modal.Header>
-					<Modal.Body>
-						<Box>
-							<Box
-								flexDirection={"row"}
-								alignItems={"center"}
-								justifyContent={"space-between"}
-							>
-								<Text textAlign={"center"} fontSize="lg">
-									{t(`modal.language`)}
-								</Text>
+				<Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+					<Modal.Content>
+						<Modal.CloseButton />
+						<Modal.Header>{t(`modal.title`)}</Modal.Header>
+						<Modal.Body>
+							<Box>
 								<Box
-									style={{
-										display: "flex",
-										flexDirection: "row",
-										gap: 16,
-										justifyContent: "center",
-									}}
+									flexDirection={"row"}
+									alignItems={"center"}
+									justifyContent={"space-between"}
 								>
-									<TouchableOpacity onPress={() => handleChangeLanguage("pt")}>
-										<Image
-											style={{ width: 24, height: 24 }}
-											source={require("../../../assets/languages/pt.png")}
-										/>
-									</TouchableOpacity>
-									<TouchableOpacity onPress={() => handleChangeLanguage("en")}>
-										<Image
-											style={{ width: 24, height: 24 }}
-											source={require("../../../assets/languages/en.png")}
-										/>
-									</TouchableOpacity>
+									<Text textAlign={"center"} fontSize="lg">
+										{t(`modal.language`)}
+									</Text>
+									<Box
+										style={{
+											display: "flex",
+											flexDirection: "row",
+											gap: 16,
+											justifyContent: "center",
+										}}
+									>
+										<TouchableOpacity
+											onPress={() => handleChangeLanguage("pt")}
+										>
+											<Image
+												style={{ width: 24, height: 24 }}
+												source={require("../../../assets/languages/pt.png")}
+											/>
+										</TouchableOpacity>
+										<TouchableOpacity
+											onPress={() => handleChangeLanguage("en")}
+										>
+											<Image
+												style={{ width: 24, height: 24 }}
+												source={require("../../../assets/languages/en.png")}
+											/>
+										</TouchableOpacity>
+									</Box>
+								</Box>
+
+								<Box
+									flexDirection={"row"}
+									alignItems={"center"}
+									justifyContent={"space-between"}
+								>
+									<Text textAlign={"center"} fontSize="lg">
+										{t(`modal.colorMode`)}
+									</Text>
+
+									<IconButton
+										icon={
+											theme.currentTheme === "light" ? (
+												<MoonIcon size={8} />
+											) : (
+												<SunIcon size={8} />
+											)
+										}
+										borderRadius="full"
+										onPress={toggleColorMode}
+									/>
 								</Box>
 							</Box>
+						</Modal.Body>
+						<Modal.Footer>
+							<Button.Group>
+								<Button
+									onPress={() => {
+										setShowModal(false);
+									}}
+								>
+									Fechar
+								</Button>
+							</Button.Group>
+						</Modal.Footer>
+					</Modal.Content>
+				</Modal>
 
-							<Box
-								flexDirection={"row"}
-								alignItems={"center"}
-								justifyContent={"space-between"}
-							>
-								<Text textAlign={"center"} fontSize="lg">
-									{t(`modal.colorMode`)}
-								</Text>
-
-								<IconButton
-									icon={
-										theme.currentTheme === "light" ? (
-											<MoonIcon size={8} />
-										) : (
-											<SunIcon size={8} />
-										)
-									}
-									borderRadius="full"
-									onPress={toggleColorMode}
-								/>
-							</Box>
-						</Box>
-					</Modal.Body>
-					<Modal.Footer>
-						<Button.Group>
-							<Button
-								onPress={() => {
-									setShowModal(false);
-								}}
-							>
-								Fechar
-							</Button>
-						</Button.Group>
-					</Modal.Footer>
-				</Modal.Content>
-			</Modal>
-
-			<Formik
-				initialValues={{ name: "" }}
-				onSubmit={(values) => {
-					handleParticipantAdd(values.name);
-				}}
-			>
-				{({ handleChange, handleSubmit, values }) => (
-					<FormControl mb={8}>
-						<Input
-							width={"100%"}
-							size={"md"}
-							id="name"
-							borderRadius={"full"}
-							placeholder={t(`form.placeholder.name`)}
-							onChangeText={handleChange("name")}
-							value={values.name}
-							mb={2}
+				<FlatList
+					data={participants}
+					keyExtractor={(item) => item}
+					showsVerticalScrollIndicator={false}
+					renderItem={({ item }) => (
+						<Participant
+							key={item}
+							name={item}
+							onRemove={() => handleParticipantRemove(item)}
 						/>
-						<Button
-							onPress={handleSubmit}
-							fontSize={"md"}
-							borderRadius={"full"}
-							colorScheme="lightBlue"
-						>
-							{t(`form.submitButton`)}
-						</Button>
-					</FormControl>
-				)}
-			</Formik>
-
-			<FlatList
-				data={participants}
-				keyExtractor={(item) => item}
-				showsVerticalScrollIndicator={false}
-				renderItem={({ item }) => (
-					<Participant
-						key={item}
-						name={item}
-						onRemove={() => handleParticipantRemove(item)}
-					/>
-				)}
-				ListEmptyComponent={() => (
-					<Text style={styles.listEmptyText}>{t(`form.warning.tip`)}</Text>
-				)}
-			/>
+					)}
+					ListEmptyComponent={() => (
+						<Text style={styles.listEmptyText}>{t(`form.warning.tip`)}</Text>
+					)}
+				/>
+			</Box>
 		</Box>
 	);
 }
