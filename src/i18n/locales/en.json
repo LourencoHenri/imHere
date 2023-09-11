@@ -1,0 +1,28 @@
+{
+    "form": {
+        "placeholder": {
+            "name": "Name",
+            "id": "ID",
+            "phoneNumber": "Phone Number",
+            "birthDate": "Birth Date"
+        },
+        "submitButton": "Add Participant",
+        "remove": {
+            "title": "Remove",
+            "text": "Remove participant {{participantName}}?",
+            "yes": "Remove",
+            "no": "No"
+        },
+        "add": "Add",
+        "warning": {
+            "add": "There is already a participant with this ID!",
+            "tip": "Add the participants to your attendance list!"
+        }
+    },
+    "modal": {
+        "title": "Configurations",
+        "language": "Language",
+        "colorMode": "Color mode",
+        "close": "Close"
+    }
+}

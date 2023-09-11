@@ -1,0 +1,28 @@
+{
+    "form": {
+        "placeholder": {
+            "name": "Nome",
+            "id": "Documento",
+            "phoneNumber": "Telefone",
+            "birthDate": "Data de nascimento"
+        },
+        "submitButton": "Adicionar participante",
+        "remove": {
+            "title": "Remover",
+            "text": "Remover {{participantName}} da lista de participantes?",
+            "yes": "Remover",
+            "no": "Não"
+        },
+        "add": "Adicionar",
+        "warning": {
+            "add": "Já há um participante com esse documento!",
+            "tip": "Adicione os participantes a sua lista de presença!"
+        },
+        "modal": {
+            "title": "Configurações",
+            "language": "Idioma",
+            "colorMode": "Tema",
+            "close": "Fechar"
+        }
+    }
+}
